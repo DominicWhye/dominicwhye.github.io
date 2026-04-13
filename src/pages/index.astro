@@ -1,37 +1,43 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<BaseLayout title="Dominic Whye">
-  <main style="max-width: 800px; margin: auto; padding: 2rem;">
+<html lang="en">
+  <head>
+    <BaseHead title="Dominic Whye" description="Cybersecurity notes and personal projects." />
+  </head>
+  <body>
+    <Header />
+    <main style="max-width: 800px; margin: auto; padding: 2rem;">
+      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">
+        Dominic Whye
+      </h1>
 
-    <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">
-      Dominic Whye
-    </h1>
-
-    <p style="color: gray; margin-bottom: 2rem;">
-      Cybersecurity notes and personal projects.
-    </p>
-
-    <hr style="margin: 2rem 0;" />
-
-    <section>
-      <h2>📚 Latest Posts</h2>
-
-      <ul>
-        
-      </ul>
-    </section>
-
-    <hr style="margin: 2rem 0;" />
-
-    <section>
-      <h2>👤 About Me</h2>
-      <p>
-        I write about cybersecurity, Linux and CTF challenges.
-        This blog documents my learning and walkthroughs.
+      <p style="color: gray; margin-bottom: 2rem;">
+        Cybersecurity notes and personal projects.
       </p>
-    </section>
 
-  </main>
-</BaseLayout>
+      <hr style="margin: 2rem 0;" />
+
+      <section>
+        <h2>Latest Posts</h2>
+        <ul>
+          <li><a href="/blog/">View blog posts</a></li>
+        </ul>
+      </section>
+
+      <hr style="margin: 2rem 0;" />
+
+      <section>
+        <h2>About Me</h2>
+        <p>
+          I write about cybersecurity, Linux and CTF challenges.
+          This blog documents my learning and walkthroughs.
+        </p>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
