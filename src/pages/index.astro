@@ -1,43 +1,409 @@
 ---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import HeroImage from '../assets/blog-placeholder-about.jpg';
+
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+
+const focusAreas = [
+	{
+		title: 'Cybersecurity',
+		description: 'Notes from labs, threat research, hardening ideas, and practical security rabbit holes.',
+	},
+	{
+		title: 'Linux',
+		description: 'System tweaks, terminal workflows, and fixes worth remembering the next time they bite.',
+	},
+	{
+		title: 'CTFs',
+		description: 'Challenge writeups, methodology notes, and the lessons hiding behind each solved box.',
+	},
+];
 ---
 
 <html lang="en">
-  <head>
-    <BaseHead title="Dominic Whye" description="Cybersecurity notes and personal projects." />
-  </head>
-  <body>
-    <Header />
-    <main style="max-width: 800px; margin: auto; padding: 2rem;">
-      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">
-        Dominic Whye
-      </h1>
+	<head>
+		<BaseHead
+			title="Dominic Whye"
+			description="Cybersecurity notes, Linux experiments, CTF writeups, and project logs."
+			image={HeroImage}
+		/>
+		<style>
+			:root {
+				--home-ink: #17211f;
+				--home-muted: #60706d;
+				--home-line: #dce5df;
+				--home-paper: #fbfdfb;
+				--home-soft: #eef6f2;
+				--home-accent: #147766;
+				--home-accent-strong: #0b4f45;
+				--home-warm: #b84f5f;
+			}
 
-      <p style="color: gray; margin-bottom: 2rem;">
-        Cybersecurity notes and personal projects.
-      </p>
+			body {
+				background:
+					linear-gradient(180deg, #f6fbf7 0%, #fff 520px) no-repeat,
+					#fff;
+			}
 
-      <hr style="margin: 2rem 0;" />
+			main.home {
+				width: min(1120px, calc(100% - 2rem));
+				padding: 4rem 0 5rem;
+			}
 
-      <section>
-        <h2>Latest Posts</h2>
-        <ul>
-          <li><a href="/blog/">View blog posts</a></li>
-        </ul>
-      </section>
+			.hero {
+				display: grid;
+				grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+				align-items: center;
+				gap: 3rem;
+				min-height: 72vh;
+				padding-bottom: 3rem;
+			}
 
-      <hr style="margin: 2rem 0;" />
+			.eyebrow {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.6rem;
+				margin: 0 0 1rem;
+				color: var(--home-accent-strong);
+				font-size: 0.9rem;
+				font-weight: 700;
+				letter-spacing: 0;
+				text-transform: uppercase;
+			}
 
-      <section>
-        <h2>About Me</h2>
-        <p>
-          I write about cybersecurity, Linux and CTF challenges.
-          This blog documents my learning and walkthroughs.
-        </p>
-      </section>
-    </main>
-    <Footer />
-  </body>
+			.eyebrow::before {
+				content: '';
+				width: 2rem;
+				height: 2px;
+				background: var(--home-warm);
+			}
+
+			h1 {
+				max-width: 10ch;
+				color: var(--home-ink);
+				font-size: clamp(2.7rem, 5rem, 5.2rem);
+				line-height: 0.98;
+				margin-bottom: 1.2rem;
+			}
+
+			.hero-copy {
+				max-width: 660px;
+				color: var(--home-muted);
+				font-size: 1.15rem;
+			}
+
+			.actions {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.8rem;
+				margin-top: 2rem;
+			}
+
+			.button {
+				display: inline-flex;
+				align-items: center;
+				min-height: 44px;
+				padding: 0.55rem 1rem;
+				border: 1px solid var(--home-accent);
+				border-radius: 8px;
+				color: var(--home-accent-strong);
+				font-weight: 700;
+				text-decoration: none;
+				transition:
+					background 0.2s ease,
+					color 0.2s ease,
+					transform 0.2s ease;
+			}
+
+			.button.primary {
+				background: var(--home-accent);
+				color: #fff;
+			}
+
+			.button:hover {
+				background: var(--home-accent-strong);
+				color: #fff;
+				transform: translateY(-2px);
+			}
+
+			.hero-visual {
+				position: relative;
+			}
+
+			.hero-visual img {
+				display: block;
+				width: 100%;
+				aspect-ratio: 4 / 5;
+				object-fit: cover;
+				border-radius: 8px;
+				box-shadow: 0 24px 70px rgba(23, 33, 31, 18%);
+			}
+
+			.hero-note {
+				position: absolute;
+				right: -1rem;
+				bottom: 1.4rem;
+				width: min(270px, 80%);
+				padding: 1rem;
+				border: 1px solid rgba(255, 255, 255, 70%);
+				border-radius: 8px;
+				background: rgba(255, 255, 255, 92%);
+				box-shadow: 0 16px 40px rgba(23, 33, 31, 16%);
+			}
+
+			.hero-note p {
+				margin: 0;
+				color: var(--home-ink);
+				font-size: 0.95rem;
+				line-height: 1.45;
+			}
+
+			.section-heading {
+				display: flex;
+				align-items: end;
+				justify-content: space-between;
+				gap: 1rem;
+				margin-bottom: 1.4rem;
+				border-top: 1px solid var(--home-line);
+				padding-top: 2.2rem;
+			}
+
+			.section-heading h2 {
+				margin: 0;
+				color: var(--home-ink);
+				font-size: 1.85rem;
+			}
+
+			.section-heading p,
+			.section-heading a {
+				margin: 0;
+				color: var(--home-muted);
+				font-size: 1rem;
+			}
+
+			.section-heading a {
+				color: var(--home-accent-strong);
+				font-weight: 700;
+				text-decoration: none;
+			}
+
+			.focus-grid,
+			.post-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1rem;
+				margin-bottom: 3rem;
+			}
+
+			.focus-card,
+			.post-card {
+				border: 1px solid var(--home-line);
+				border-radius: 8px;
+				background: var(--home-paper);
+			}
+
+			.focus-card {
+				padding: 1.2rem;
+			}
+
+			.focus-card h3,
+			.post-card h3 {
+				color: var(--home-ink);
+				font-size: 1.2rem;
+			}
+
+			.focus-card p,
+			.post-card p {
+				color: var(--home-muted);
+				font-size: 0.98rem;
+				line-height: 1.55;
+			}
+
+			.post-card {
+				overflow: hidden;
+			}
+
+			.post-card a {
+				display: grid;
+				height: 100%;
+				color: inherit;
+				text-decoration: none;
+			}
+
+			.post-card img {
+				width: 100%;
+				aspect-ratio: 16 / 10;
+				object-fit: cover;
+				border-radius: 0;
+			}
+
+			.post-copy {
+				padding: 1rem;
+			}
+
+			.post-copy h3 {
+				margin-bottom: 0.5rem;
+			}
+
+			.post-copy .date {
+				margin: 0 0 0.6rem;
+				color: var(--home-warm);
+				font-size: 0.9rem;
+				font-weight: 700;
+			}
+
+			.closing {
+				display: grid;
+				grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+				gap: 2rem;
+				align-items: start;
+				padding: 2rem 0 0;
+				border-top: 1px solid var(--home-line);
+			}
+
+			.closing h2 {
+				color: var(--home-ink);
+				font-size: 1.85rem;
+			}
+
+			.closing p {
+				margin-top: 0;
+				color: var(--home-muted);
+			}
+
+			@media (max-width: 860px) {
+				main.home {
+					width: min(100% - 1rem, 680px);
+					padding: 2.5rem 0 4rem;
+				}
+
+				.hero,
+				.closing {
+					grid-template-columns: 1fr;
+				}
+
+				.hero {
+					min-height: auto;
+					gap: 2rem;
+				}
+
+				h1 {
+					font-size: 3rem;
+				}
+
+				.hero-visual img {
+					aspect-ratio: 16 / 11;
+				}
+
+				.hero-note {
+					position: static;
+					width: auto;
+					margin-top: 1rem;
+					box-shadow: none;
+				}
+
+				.section-heading {
+					display: block;
+				}
+
+				.focus-grid,
+				.post-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main class="home">
+			<section class="hero" aria-labelledby="intro-title">
+				<div>
+					<p class="eyebrow">Work notes and writeups</p>
+					<h1 id="intro-title">Dominic Whye</h1>
+					<p class="hero-copy">
+						A personal archive for cybersecurity learning, Linux experiments, CTF notes, and the
+						projects I want to keep building in public.
+					</p>
+					<div class="actions">
+						<a class="button primary" href="/blog/">Read the notes</a>
+						<a class="button" href="/about/">About me</a>
+					</div>
+				</div>
+				<div class="hero-visual">
+					<Image src={HeroImage} alt="A desk setup used for study and project work" width={720} />
+					<div class="hero-note">
+						<p>Document the work. Keep the trail. Come back smarter next time.</p>
+					</div>
+				</div>
+			</section>
+
+			<section aria-labelledby="focus-title">
+				<div class="section-heading">
+					<div>
+						<h2 id="focus-title">What I Track</h2>
+						<p>Small notes, useful fixes, and deeper walkthroughs.</p>
+					</div>
+				</div>
+				<div class="focus-grid">
+					{focusAreas.map((area) => (
+						<article class="focus-card">
+							<h3>{area.title}</h3>
+							<p>{area.description}</p>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<section aria-labelledby="latest-title">
+				<div class="section-heading">
+					<div>
+						<h2 id="latest-title">Latest Posts</h2>
+						<p>Recent entries from the archive.</p>
+					</div>
+					<a href="/blog/">View all posts</a>
+				</div>
+				<div class="post-grid">
+					{posts.map((post) => (
+						<article class="post-card">
+							<a href={`/blog/${post.id}/`}>
+								{post.data.heroImage && (
+									<Image width={520} height={325} src={post.data.heroImage} alt="" />
+								)}
+								<div class="post-copy">
+									<p class="date">
+										<FormattedDate date={post.data.pubDate} />
+									</p>
+									<h3>{post.data.title}</h3>
+									<p>{post.data.description}</p>
+								</div>
+							</a>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<section class="closing" aria-labelledby="about-title">
+				<h2 id="about-title">Why This Exists</h2>
+				<div>
+					<p>
+						This site is where I keep the useful parts of the work: commands, mistakes,
+						walkthroughs, configs, references, and project notes that deserve more than a folder
+						full of screenshots.
+					</p>
+					<p>
+						Expect practical writeups first: security notes, CTF methodology, Linux workflows, and
+						the occasional project log when something is worth sharing.
+					</p>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
 </html>
