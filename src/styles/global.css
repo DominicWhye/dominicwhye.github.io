@@ -144,3 +144,19 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
+
+
+.command-line {
+  display: inline-flex;
+  gap: 0.6rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  background: #0d1117;
+  color: #00ffcc;
+  font-family: monospace;
+}
+.command-line span {
+  color: #ff5f56;
+}
+
