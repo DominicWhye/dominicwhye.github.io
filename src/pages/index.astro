@@ -36,20 +36,21 @@ const focusAreas = [
 		/>
 		<style>
 			:root {
-				--home-ink: #17211f;
-				--home-muted: #60706d;
-				--home-line: #dce5df;
-				--home-paper: #fbfdfb;
-				--home-soft: #eef6f2;
-				--home-accent: #147766;
-				--home-accent-strong: #0b4f45;
-				--home-warm: #b84f5f;
+				--home-ink: #e5f3ef;
+				--home-muted: #8fa19e;
+				--home-line: #263331;
+				--home-paper: #111a18;
+				--home-accent: #5eead4;
+				--home-accent-strong: #99f6e4;
+				--home-warm: #f472b6;
+				--home-terminal: #0a0f0e;
 			}
 
 			body {
 				background:
-					linear-gradient(180deg, #f6fbf7 0%, #fff 520px) no-repeat,
-					#fff;
+					linear-gradient(180deg, rgba(13, 23, 21, 95%) 0%, #111816 520px) no-repeat,
+					radial-gradient(circle at 78% 12%, rgba(94, 234, 212, 12%), transparent 28rem),
+					#111816;
 			}
 
 			main.home {
@@ -72,7 +73,8 @@ const focusAreas = [
 				gap: 0.6rem;
 				margin: 0 0 1rem;
 				color: var(--home-accent-strong);
-				font-size: 0.9rem;
+				font-family: Consolas, 'Courier New', monospace;
+				font-size: 0.88rem;
 				font-weight: 700;
 				letter-spacing: 0;
 				text-transform: uppercase;
@@ -82,7 +84,7 @@ const focusAreas = [
 				content: '';
 				width: 2rem;
 				height: 2px;
-				background: var(--home-warm);
+				background: var(--home-accent);
 			}
 
 			h1 {
@@ -99,6 +101,25 @@ const focusAreas = [
 				font-size: 1.15rem;
 			}
 
+			.command-line {
+				display: inline-flex;
+				gap: 0.6rem;
+				max-width: 100%;
+				margin-top: 1.4rem;
+				padding: 0.65rem 0.8rem;
+				border: 1px solid var(--home-line);
+				border-radius: 8px;
+				background: var(--home-terminal);
+				color: var(--home-accent);
+				font-family: Consolas, 'Courier New', monospace;
+				font-size: 0.9rem;
+				overflow-wrap: anywhere;
+			}
+
+			.command-line span {
+				color: var(--home-warm);
+			}
+
 			.actions {
 				display: flex;
 				flex-wrap: wrap;
@@ -113,7 +134,7 @@ const focusAreas = [
 				padding: 0.55rem 1rem;
 				border: 1px solid var(--home-accent);
 				border-radius: 8px;
-				color: var(--home-accent-strong);
+				color: var(--home-accent);
 				font-weight: 700;
 				text-decoration: none;
 				transition:
@@ -124,12 +145,12 @@ const focusAreas = [
 
 			.button.primary {
 				background: var(--home-accent);
-				color: #fff;
+				color: #071211;
 			}
 
 			.button:hover {
 				background: var(--home-accent-strong);
-				color: #fff;
+				color: #071211;
 				transform: translateY(-2px);
 			}
 
@@ -143,26 +164,9 @@ const focusAreas = [
 				aspect-ratio: 4 / 5;
 				object-fit: cover;
 				border-radius: 8px;
-				box-shadow: 0 24px 70px rgba(23, 33, 31, 18%);
-			}
-
-			.hero-note {
-				position: absolute;
-				right: -1rem;
-				bottom: 1.4rem;
-				width: min(270px, 80%);
-				padding: 1rem;
-				border: 1px solid rgba(255, 255, 255, 70%);
-				border-radius: 8px;
-				background: rgba(255, 255, 255, 92%);
-				box-shadow: 0 16px 40px rgba(23, 33, 31, 16%);
-			}
-
-			.hero-note p {
-				margin: 0;
-				color: var(--home-ink);
-				font-size: 0.95rem;
-				line-height: 1.45;
+				border: 1px solid var(--home-line);
+				box-shadow: 0 24px 70px rgba(0, 0, 0, 38%);
+				filter: saturate(0.75) contrast(1.08) brightness(0.72);
 			}
 
 			.section-heading {
@@ -207,6 +211,7 @@ const focusAreas = [
 				border: 1px solid var(--home-line);
 				border-radius: 8px;
 				background: var(--home-paper);
+				box-shadow: 0 14px 36px rgba(0, 0, 0, 22%);
 			}
 
 			.focus-card {
@@ -255,6 +260,7 @@ const focusAreas = [
 			.post-copy .date {
 				margin: 0 0 0.6rem;
 				color: var(--home-warm);
+				font-family: Consolas, 'Courier New', monospace;
 				font-size: 0.9rem;
 				font-weight: 700;
 			}
@@ -302,13 +308,6 @@ const focusAreas = [
 					aspect-ratio: 16 / 11;
 				}
 
-				.hero-note {
-					position: static;
-					width: auto;
-					margin-top: 1rem;
-					box-shadow: none;
-				}
-
 				.section-heading {
 					display: block;
 				}
@@ -331,6 +330,9 @@ const focusAreas = [
 						A personal archive for cybersecurity learning, Linux experiments, CTF notes, and the
 						projects I want to keep building in public.
 					</p>
+					<div class="command-line" aria-label="Site focus">
+						<span>$</span> cat notes/security linux ctf projects
+					</div>
 					<div class="actions">
 						<a class="button primary" href="/blog/">Read the notes</a>
 						<a class="button" href="/about/">About me</a>
@@ -338,9 +340,6 @@ const focusAreas = [
 				</div>
 				<div class="hero-visual">
 					<Image src={HeroImage} alt="A desk setup used for study and project work" width={720} />
-					<div class="hero-note">
-						<p>Document the work. Keep the trail. Come back smarter next time.</p>
-					</div>
 				</div>
 			</section>
 
