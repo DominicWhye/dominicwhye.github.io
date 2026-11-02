@@ -1,5 +1,6 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import AboutHeroImage from '../assets/image0.jpeg';
+import AboutHeroImage2 from '../assets/image1.jpeg';
 import Layout from '../layouts/BlogPost.astro';
 ---
 
@@ -7,12 +8,17 @@ import Layout from '../layouts/BlogPost.astro';
 	title="About Me"
 	description="Lorem ipsum dolor sit amet"
 	pubDate={new Date('Nov 2, 2026')}
-	heroImage={AboutHeroImage}
+	heroImage={AboutHeroImage,AboutHeroImage2}
 >
 	<p>
 		A tinkerer at heart with a deep interest in infrastructure, edge computing and networking.
 		I spend my free time experimenting with single-board servers and building custom metrics dashboards to track hardware telemetry. 
 		Whether I am troubleshooting IoT network compatibility or configuring self-hosted environments, I enjoy hands-on problem-solving and terminal-first administration.
 	</p>
-	
+
+	<p>
+		Current Setup: 
+		-Sandisk E30 1tb SSD
+		-Raspberry Pi 5 4gb ram + Argon active cooler
+	</p>
 </Layout>
