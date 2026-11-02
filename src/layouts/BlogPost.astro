@@ -6,9 +6,10 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & { heroImage2?: any };
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+// 1. Added heroImage2 to the destructured props
+const { title, description, pubDate, updatedDate, heroImage, heroImage2 } = Astro.props;
 ---
 
 <html lang="en">
@@ -20,14 +21,22 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				max-width: 100%;
 				margin: 0;
 			}
+			/* 2. Updated to use Flexbox for side-by-side layout */
 			.hero-image {
 				width: 100%;
+				display: flex;
+				justify-content: center;
+				gap: 1em; /* Adds space between the images */
 			}
 			.hero-image img {
 				display: block;
-				margin: 0 auto;
+				margin: 0;
 				border-radius: 12px;
 				box-shadow: var(--box-shadow);
+				flex: 1; /* Ensures images share the space equally */
+				max-width: 100%;
+				height: auto;
+				object-fit: cover; /* Prevents stretching */
 			}
 			.prose {
 				width: 720px;
@@ -59,8 +68,10 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		<Header />
 		<main>
 			<article>
+				<!-- 3. Added the second image conditionally -->
 				<div class="hero-image">
 					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+					{heroImage2 && <Image width={1020} height={510} src={heroImage2} alt="" />}
 				</div>
 				<div class="prose">
 					<div class="title">
